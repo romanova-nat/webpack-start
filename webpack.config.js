@@ -1,16 +1,32 @@
-const path = require('path');
+const path = require('node:path');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    entry: './js/index.js',
+    entry: "./js/index.js",
+    output: {
+        path: path.resolve(__dirname, 'dist'), // Указание пути для вывода собранных файлов в папку 'dist' в текущем каталоге
+    },
 
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
             },
+
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                    },
+                ],
+            },
+
             {
                 test: /\.css$/,
                 use: [
@@ -22,11 +38,11 @@ module.exports = {
     },
 
     plugins: [
-    new HtmlWebpackPlugin({
-        template: "./src/index.html",
-    }),
-    new MiniCssExtractPlugin()
-]
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+        }),
+        new MiniCssExtractPlugin()
+    ]
 };
 
 
