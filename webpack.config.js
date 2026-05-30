@@ -5,7 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     entry: "./js/index.js",
     output: {
-        path: path.resolve(__dirname, 'dist'), // Указание пути для вывода собранных файлов в папку 'dist' в текущем каталоге
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].[contenthash].js',
+        clean: true,
     },
 
     module: {
@@ -15,7 +17,17 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                },
+                    options: {
+                        presets: [
+                            [
+                                '@babel/preset-env',
+                                {
+                                    targets: { esmodules: true }
+                                }
+                            ]
+                        ]
+                    }
+                }
             },
 
             {
@@ -44,5 +56,3 @@ module.exports = {
         new MiniCssExtractPlugin()
     ]
 };
-
-
